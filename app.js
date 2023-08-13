@@ -12,10 +12,16 @@ admin.initializeApp({
 const db = admin.firestore();
 // Initialize Express.js
 const app = express();
-// Parse request body as text
+// Parse plain text request bodies
 app.use(express.text());
 // Enable CORS
 app.use(cors());
+
+// Set Content-Type header to text/plain
+app.use((req, res, next) => {
+  res.setHeader("Content-Type", "text/plain");
+  next();
+});
 
 // GET request
 app.get("/api/:register", async (req, res) => {
@@ -28,11 +34,10 @@ app.get("/api/:register", async (req, res) => {
     if (doc.exists) {
       // if the document exists, return the value
       const registerData = doc.data().value;
-      res.set("Content-Type", "text/plain");
-      res.send(registerData.toString());
+      res.send(registerData.toString() + "\n");
     } else {
       // If the document does not exist, return 0
-      res.send("0");
+      res.send("0" + "\n");
     }
   } catch (error) {
     res.send("Error retrieving register");
@@ -41,6 +46,7 @@ app.get("/api/:register", async (req, res) => {
 
 // POST request
 app.post("/api/:register", async (req, res) => {
+  console.log(req.body);
   const registerId = req.params.register;
   const registerData = +req.body;
   try {
@@ -52,13 +58,11 @@ app.post("/api/:register", async (req, res) => {
       // If the document exists, add the new value to the existing value
       const newValue = doc.data().value + registerData;
       await docRef.set({ value: newValue });
-      res.set("Content-Type", "text/plain");
-      res.send(newValue.toString());
+      res.send(newValue.toString() + "\n");
     } else {
       // If the document does not exist, create a new one with the provided value
       await docRef.set({ value: registerData });
-      res.set("Content-Type", "text/plain");
-      res.send(registerData.toString());
+      res.send(registerData.toString() + "\n");
     }
   } catch (error) {
     res.send("Error creating/updating register");
@@ -78,7 +82,7 @@ app.put("/api/:register", async (req, res) => {
 
     // Return the updated value
     res.set("Content-Type", "text/plain");
-    res.send(updatedData.toString());
+    res.send(updatedData.toString() + "\n");
   } catch (error) {
     res.send("Error updating register");
   }
