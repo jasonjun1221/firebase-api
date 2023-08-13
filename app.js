@@ -46,7 +46,6 @@ app.get("/api/:register", async (req, res) => {
 
 // POST request
 app.post("/api/:register", async (req, res) => {
-  console.log(req.body);
   const registerId = req.params.register;
   const registerData = +req.body;
   try {
@@ -81,7 +80,6 @@ app.put("/api/:register", async (req, res) => {
     await docRef.set({ value: updatedData });
 
     // Return the updated value
-    res.set("Content-Type", "text/plain");
     res.send(updatedData.toString() + "\n");
   } catch (error) {
     res.send("Error updating register");

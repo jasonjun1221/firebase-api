@@ -1,4 +1,7 @@
-# commands
+# STEP 1 - Run app.js
+node app.js
+
+# STEP 2 - Type all the commands
 curl http://localhost:8080/api/age
 curl -X POST -H "Content-Type: text/plain" -d "32" http://localhost:8080/api/age
 curl -X POST -H "Content-Type: text/plain" -d "4" http://localhost:8080/api/age
