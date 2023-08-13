@@ -10,13 +10,10 @@ admin.initializeApp({
 
 // Initialize Cloud Firestore Database
 const db = admin.firestore();
-
 // Initialize Express.js
 const app = express();
-
 // Parse request body as text
 app.use(express.text());
-
 // Enable CORS
 app.use(cors());
 
